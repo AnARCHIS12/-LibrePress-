@@ -1,0 +1,66 @@
+{
+    "exported_at": "2026-05-12T17:03:52.236382Z",
+    "contents": [
+        {
+            "id": 1,
+            "type": "page",
+            "status": "published",
+            "author_id": 1,
+            "parent_id": null,
+            "translation_group_id": null,
+            "locale": "fr",
+            "slug": "accueil",
+            "title": "LibrePress",
+            "excerpt": "Un CMS Laravel libre, modulaire et auto-hebergeable.",
+            "body_json": {
+                "version": 1,
+                "blocks": [
+                    {
+                        "id": "intro",
+                        "type": "core/markdown",
+                        "props": {
+                            "text": "## Bienvenue\n\nLibrePress est pret: pages, articles, admin, medias, RSS, API et architecture de modules."
+                        }
+                    }
+                ]
+            },
+            "body_html": null,
+            "meta": null,
+            "published_at": "2026-05-12T17:01:28.000000Z",
+            "scheduled_at": null,
+            "created_at": "2026-05-12T17:01:28.000000Z",
+            "updated_at": "2026-05-12T17:01:28.000000Z"
+        },
+        {
+            "id": 2,
+            "type": "post",
+            "status": "published",
+            "author_id": 1,
+            "parent_id": null,
+            "translation_group_id": null,
+            "locale": "fr",
+            "slug": "premier-article",
+            "title": "Premier article",
+            "excerpt": "Le module Blog officiel peut etendre ce socle.",
+            "body_json": {
+                "version": 1,
+                "blocks": [
+                    {
+                        "id": "post-body",
+                        "type": "core/markdown",
+                        "props": {
+                            "text": "Ceci est un article publie depuis le seed initial."
+                        }
+                    }
+                ]
+            },
+            "body_html": null,
+            "meta": null,
+            "published_at": "2026-05-12T17:01:28.000000Z",
+            "scheduled_at": null,
+            "created_at": "2026-05-12T17:01:28.000000Z",
+            "updated_at": "2026-05-12T17:01:28.000000Z"
+        }
+    ],
+    "media": []
+}

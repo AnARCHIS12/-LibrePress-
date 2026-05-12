@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -euo pipefail
+
+echo "Backup LibrePress"
+echo "Dump database, archive storage/app/public, save .env and module manifests."
+

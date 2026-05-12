@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -euo pipefail
+
+# Blueprint script: adapt with ynh helpers in the real package.
+echo "Install LibrePress"
+echo "Create database, deploy Laravel release, configure PHP-FPM/Nginx, run migrations."
+

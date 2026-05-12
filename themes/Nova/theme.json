@@ -1,0 +1,23 @@
+{
+  "name": "Nova",
+  "slug": "nova",
+  "version": "0.1.0",
+  "description": "Default lightweight responsive theme.",
+  "regions": {
+    "header": "Header",
+    "content": "Content",
+    "sidebar": "Sidebar",
+    "footer": "Footer"
+  },
+  "templates": {
+    "page": "themes.nova.page",
+    "post": "themes.nova.post",
+    "archive": "themes.nova.archive"
+  },
+  "supports": [
+    "blocks",
+    "dark-mode",
+    "responsive-images"
+  ]
+}
+

@@ -1,0 +1,16 @@
+{
+  "name": "Blog",
+  "slug": "blog",
+  "version": "0.1.0",
+  "entry": "Modules\\Blog\\BlogModule",
+  "description": "Articles, categories, tags, RSS and editorial workflows.",
+  "permissions": [
+    "blog.posts.view",
+    "blog.posts.create",
+    "blog.posts.update",
+    "blog.posts.delete",
+    "blog.posts.publish"
+  ],
+  "dependencies": []
+}
+
