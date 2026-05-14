@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use App\Models\User;
+use App\Models\ActivityPubActor;
+use App\Models\Content;
+use App\Jobs\DeliverActivityPubOutboxItem;
+use App\Services\ActivityPubOutbox;
 use App\Services\WordPress\WxrImporter;
 
 Artisan::command('inspire', function (): void {
@@ -60,3 +64,13 @@ Artisan::command('librepress:import-wordpress {file}', function (WxrImporter $im
 
     return self::SUCCESS;
 })->purpose('Import pages and posts from a WordPress WXR export');
+
+Artisan::command('librepress:activitypub-publish {contentId} {actor=admin}', function (ActivityPubOutbox $outbox): int {
+    $content = Content::query()->findOrFail((int) $this->argument('contentId'));
+    $actor = ActivityPubActor::query()->where('username', (string) $this->argument('actor'))->firstOrFail();
+    $item = $outbox->publishContent($actor, $content);
+    DeliverActivityPubOutboxItem::dispatch($item->id);
+    $this->info("Queued ActivityPub outbox item {$item->id}.");
+
+    return self::SUCCESS;
+})->purpose('Create and queue an ActivityPub Create activity for a content item');

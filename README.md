@@ -32,6 +32,10 @@ Stabilisation ajoutee:
 - commentaires durcis: honeypot, detection spam simple, signalements;
 - multilingue utilisable par duplication de contenu et groupe de traduction;
 - extensions durcies: checksum manifeste, contrainte de version coeur, preview theme, desinstallation module.
+- import WordPress avance: auteurs, taxonomies, medias distants references, menus, redirections et rapport d'import;
+- ActivityPub: creation d'activites outbox, job de livraison et signature HTTP structuree;
+- redirections administrables;
+- CI GitHub pour Composer, lint PHP, tests et validation Docker Compose.
 
 ## Stack cible
 

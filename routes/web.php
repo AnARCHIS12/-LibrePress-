@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\ModuleController;
 use App\Http\Controllers\Admin\PageController;
+use App\Http\Controllers\Admin\RedirectController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\TaxonomyController;
 use App\Http\Controllers\Admin\TermController;
@@ -56,6 +57,9 @@ Route::prefix('admin')->name('admin.')->middleware(['web', 'auth', 'admin'])->gr
     Route::get('backups', [BackupController::class, 'index'])->name('backups.index');
     Route::post('backups', [BackupController::class, 'backup'])->name('backups.create');
     Route::post('exports', [BackupController::class, 'export'])->name('exports.create');
+    Route::get('redirects', [RedirectController::class, 'index'])->name('redirects.index');
+    Route::post('redirects', [RedirectController::class, 'store'])->name('redirects.store');
+    Route::delete('redirects/{redirect}', [RedirectController::class, 'destroy'])->name('redirects.destroy');
     Route::get('users', [UserController::class, 'index'])->name('users.index');
     Route::put('users/{user}', [UserController::class, 'update'])->name('users.update');
     Route::get('taxonomies', [TaxonomyController::class, 'index'])->name('taxonomies.index');

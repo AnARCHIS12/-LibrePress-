@@ -37,6 +37,7 @@ final class WxrImporter
         $wp = $namespaces['wp'] ?? 'http://wordpress.org/export/1.2/';
         $excerptNamespace = $namespaces['excerpt'] ?? 'http://wordpress.org/export/1.2/excerpt/';
         $contentNamespace = $namespaces['content'] ?? 'http://purl.org/rss/1.0/modules/content/';
+        $dcNamespace = $namespaces['dc'] ?? 'http://purl.org/dc/elements/1.1/';
         $authors = $this->importAuthors($xml, $wp, $fallbackAuthor, $summary);
         $termsByWpId = $this->importTerms($xml, $wp, $summary);
         $contentsByWpId = [];
@@ -65,7 +66,7 @@ final class WxrImporter
             $title = trim((string) $item->title) ?: 'Sans titre';
             $slug = trim((string) $wpNode->post_name) ?: Str::slug($title);
             $html = (string) $contentNode->encoded;
-            $authorLogin = (string) $wpNode->creator;
+            $authorLogin = (string) $item->children($dcNamespace)->creator;
             $author = $authors[$authorLogin] ?? $fallbackAuthor;
             $oldPath = parse_url((string) $item->link, PHP_URL_PATH) ?: null;
 

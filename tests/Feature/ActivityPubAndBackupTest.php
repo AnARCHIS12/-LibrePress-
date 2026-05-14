@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use App\Models\ActivityPubInboxItem;
+use App\Models\ActivityPubOutboxItem;
+use App\Models\Content;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -42,5 +44,18 @@ final class ActivityPubAndBackupTest extends TestCase
 
         $this->assertDatabaseHas('activity_log', ['description' => 'export.created']);
     }
-}
 
+    public function test_activitypub_publish_command_creates_outbox_item(): void
+    {
+        $this->seed();
+        $content = Content::query()->where('slug', 'premier-article')->firstOrFail();
+
+        $this->artisan('librepress:activitypub-publish', [
+            'contentId' => $content->id,
+            'actor' => 'admin',
+        ])->assertSuccessful();
+
+        $this->assertSame(1, ActivityPubOutboxItem::query()->count());
+        $this->assertSame('delivered', ActivityPubOutboxItem::query()->first()?->status);
+    }
+}

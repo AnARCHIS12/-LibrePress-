@@ -12,6 +12,7 @@
             <a href="<?php echo e(route('admin.modules.index')); ?>">Modules</a>
             <a href="<?php echo e(route('admin.themes.index')); ?>">Themes</a>
             <a href="<?php echo e(route('admin.settings.edit')); ?>">Reglages</a>
+            <a href="<?php echo e(route('admin.redirects.index')); ?>">Redirections</a>
             <a href="<?php echo e(route('admin.backups.index')); ?>">Sauvegardes</a>
             <a href="<?php echo e(route('front.home')); ?>">Voir le site</a>
         </aside>

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 final class ActivityPubOutboxItem extends Model
 {
@@ -24,5 +25,9 @@ final class ActivityPubOutboxItem extends Model
             'delivered_at' => 'datetime',
         ];
     }
-}
 
+    public function actor(): BelongsTo
+    {
+        return $this->belongsTo(ActivityPubActor::class, 'actor_id');
+    }
+}
