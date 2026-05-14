@@ -18,6 +18,19 @@ final class AuthAndAdminTest extends TestCase
         $this->get('/admin')->assertRedirect('/login');
     }
 
+    public function test_filament_admin_requires_authentication(): void
+    {
+        $this->get('/manage')->assertRedirect('/manage/login');
+    }
+
+    public function test_super_admin_can_open_filament_dashboard(): void
+    {
+        $this->seed();
+        $admin = User::query()->where('email', 'admin@example.test')->firstOrFail();
+
+        $this->actingAs($admin)->get('/manage')->assertOk();
+    }
+
     public function test_super_admin_can_create_content_and_audit_is_written(): void
     {
         $this->seed();

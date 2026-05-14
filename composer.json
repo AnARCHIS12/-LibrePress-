@@ -30,6 +30,12 @@
     }
   },
   "scripts": {
+    "post-install-cmd": [
+      "@php artisan filament:assets --ansi"
+    ],
+    "post-update-cmd": [
+      "@php artisan filament:assets --ansi"
+    ],
     "test": "phpunit"
   },
   "minimum-stability": "stable",
