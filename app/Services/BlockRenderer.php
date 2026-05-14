@@ -40,6 +40,7 @@ final readonly class BlockRenderer
             'core/code' => $this->code($props),
             'core/button' => $this->button($props),
             'core/image' => $this->image($props),
+            'core/gallery' => $this->gallery($props),
             'core/embed' => $this->embed($props),
             'core/columns' => $this->columns($props),
             default => (string) Str::markdown((string) ($props['text'] ?? ''), [
@@ -102,6 +103,29 @@ final readonly class BlockRenderer
         $alt = e((string) ($props['alt'] ?? ''));
 
         return $src === '' ? '' : "<img src=\"{$src}\" alt=\"{$alt}\" loading=\"lazy\">";
+    }
+
+    /**
+     * @param array<string, mixed> $props
+     */
+    private function gallery(array $props): string
+    {
+        $images = is_array($props['images'] ?? null) ? $props['images'] : [];
+        $html = collect($images)
+            ->map(function (mixed $image): string {
+                if (! is_array($image)) {
+                    return '';
+                }
+
+                return $this->image([
+                    'src' => $image['src'] ?? '',
+                    'alt' => $image['alt'] ?? '',
+                ]);
+            })
+            ->filter()
+            ->implode('');
+
+        return $html === '' ? '' : '<div class="gallery">'.$html.'</div>';
     }
 
     /**

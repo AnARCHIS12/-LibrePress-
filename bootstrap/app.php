@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\ResolveRedirects;
+use App\Providers\Filament\AdminPanelProvider;
 use App\Providers\LibrePressServiceProvider;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -27,6 +28,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withProviders([
+        AdminPanelProvider::class,
         LibrePressServiceProvider::class,
     ])
     ->withExceptions(function (Exceptions $exceptions): void {
