@@ -8,6 +8,7 @@ use App\Http\Requests\MediaUploadRequest;
 use App\Models\Media;
 use App\Services\AuditLogger;
 use App\Services\MalwareScanner;
+use App\Services\MediaDerivativeGenerator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -18,6 +19,7 @@ final readonly class MediaController
 {
     public function __construct(
         private MalwareScanner $scanner,
+        private MediaDerivativeGenerator $derivatives,
         private AuditLogger $audit,
     ) {
     }
@@ -55,6 +57,7 @@ final readonly class MediaController
             'hash' => hash_file('sha256', $file->getRealPath()),
             'created_by' => $request->user()?->id,
         ]);
+        $this->derivatives->generate($media);
         $this->audit->log($request, 'media.uploaded', $media, ['mime_type' => $media->mime_type]);
 
         return back()->with('status', 'Media ajoute.');

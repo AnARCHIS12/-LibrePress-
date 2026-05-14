@@ -14,6 +14,7 @@
             <a href="<?php echo e(route('admin.settings.edit')); ?>">Reglages</a>
             <a href="<?php echo e(route('admin.redirects.index')); ?>">Redirections</a>
             <a href="<?php echo e(route('admin.backups.index')); ?>">Sauvegardes</a>
+            <a href="<?php echo e(route('admin.system.index')); ?>">Systeme</a>
             <a href="<?php echo e(route('front.home')); ?>">Voir le site</a>
         </aside>
         <main class="admin-main">

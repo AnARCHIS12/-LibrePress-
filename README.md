@@ -36,6 +36,9 @@ Stabilisation ajoutee:
 - ActivityPub: creation d'activites outbox, job de livraison et signature HTTP structuree;
 - redirections administrables;
 - CI GitHub pour Composer, lint PHP, tests et validation Docker Compose.
+- recherche interne indexee avec commande de reindexation;
+- medias avec metadonnees de derives et generation WebP optionnelle via GD;
+- cache public invalidable et page de sante systeme admin.
 
 ## Stack cible
 
@@ -134,6 +137,7 @@ php artisan librepress:backup
 php artisan librepress:import-wordpress /chemin/export.wordpress.xml
 composer test
 php artisan librepress:publish-scheduled
+php artisan librepress:search-reindex
 ```
 
 Scripts production:

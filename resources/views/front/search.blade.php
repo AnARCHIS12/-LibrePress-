@@ -14,11 +14,10 @@
         <div class="grid">
             @foreach ($results as $result)
                 <article class="card">
-                    <h2><a href="{{ route('front.show', $result->slug) }}">{{ $result->title }}</a></h2>
+                    <h2><a href="{{ route('front.show', data_get($result->meta, 'slug')) }}">{{ $result->title }}</a></h2>
                     <p class="muted">{{ $result->excerpt }}</p>
                 </article>
             @endforeach
         </div>
     </main>
 @endsection
-

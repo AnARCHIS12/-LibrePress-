@@ -29,6 +29,7 @@ final class PublicRoutesTest extends TestCase
         $this->seed();
 
         $this->get('/search?q=Premier')->assertOk()->assertSee('Premier article');
+        $this->assertDatabaseHas('search_documents', ['title' => 'Premier article']);
         $this->getJson('/api/v1/posts')->assertOk()->assertJsonPath('data.data.0.slug', 'premier-article');
     }
 }

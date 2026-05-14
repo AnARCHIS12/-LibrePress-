@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Content extends Model
 {
@@ -50,6 +51,11 @@ class Content extends Model
     public function revisions(): HasMany
     {
         return $this->hasMany(ContentRevision::class);
+    }
+
+    public function searchDocument(): MorphOne
+    {
+        return $this->morphOne(SearchDocument::class, 'searchable');
     }
 
     public function terms(): BelongsToMany

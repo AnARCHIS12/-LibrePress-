@@ -9,6 +9,8 @@ use App\Models\Content;
 use App\Models\Term;
 use App\Services\AuditLogger;
 use App\Services\BlockRenderer;
+use App\Services\PublicCache;
+use App\Services\SearchIndexer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -18,6 +20,8 @@ final readonly class PageController
 {
     public function __construct(
         private BlockRenderer $renderer,
+        private SearchIndexer $search,
+        private PublicCache $cache,
         private AuditLogger $audit,
     )
     {
@@ -50,6 +54,8 @@ final readonly class PageController
         $content = Content::query()->create($request->toContentData());
         $content->update(['body_html' => $this->renderer->render($content)]);
         $content->terms()->sync($request->validated('terms') ?? []);
+        $this->search->index($content);
+        $this->cache->forgetContent($content);
         $this->audit->log($request, 'content.created', $content, ['type' => $content->type]);
 
         return redirect()->route('admin.pages.edit', $content)->with('status', 'Contenu cree.');
@@ -82,6 +88,8 @@ final readonly class PageController
         $page->body_html = $this->renderer->render($page);
         $page->save();
         $page->terms()->sync($request->validated('terms') ?? []);
+        $this->search->index($page);
+        $this->cache->forgetContent($page);
         $this->audit->log($request, 'content.updated', $page, ['type' => $page->type]);
 
         return back()->with('status', 'Contenu enregistre.');
@@ -92,6 +100,8 @@ final readonly class PageController
         Gate::authorize('delete', $page);
 
         $this->audit->log($request, 'content.deleted', $page, ['type' => $page->type]);
+        $this->search->remove($page);
+        $this->cache->forgetContent($page);
         $page->delete();
 
         return redirect()->route('admin.pages.index')->with('status', 'Contenu supprime.');

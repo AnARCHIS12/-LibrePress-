@@ -21,9 +21,17 @@ final class Media extends Model
         'height',
         'alt',
         'caption',
+        'meta',
         'hash',
         'created_by',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'meta' => 'array',
+        ];
+    }
 
     public function creator(): BelongsTo
     {
@@ -35,4 +43,3 @@ final class Media extends Model
         return Storage::disk($this->disk)->url($this->path);
     }
 }
-

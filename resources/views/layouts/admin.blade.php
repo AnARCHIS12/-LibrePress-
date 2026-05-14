@@ -16,6 +16,7 @@
             <a href="{{ route('admin.settings.edit') }}">Reglages</a>
             <a href="{{ route('admin.redirects.index') }}">Redirections</a>
             <a href="{{ route('admin.backups.index') }}">Sauvegardes</a>
+            <a href="{{ route('admin.system.index') }}">Systeme</a>
             <a href="{{ route('front.home') }}">Voir le site</a>
         </aside>
         <main class="admin-main">

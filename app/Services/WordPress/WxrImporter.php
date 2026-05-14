@@ -19,6 +19,10 @@ use SimpleXMLElement;
 
 final class WxrImporter
 {
+    public function __construct(private \App\Services\SearchIndexer $search)
+    {
+    }
+
     /**
      * @return array<string, int>
      */
@@ -92,6 +96,7 @@ final class WxrImporter
             );
 
             $this->syncItemTerms($item, $termsByWpId, $content);
+            $this->search->index($content);
             $contentsByWpId[$wpId] = $content;
             $summary['contents']++;
 

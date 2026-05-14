@@ -15,6 +15,7 @@ use App\Models\Term;
 use App\Models\Theme;
 use App\Models\User;
 use App\Support\CmsPermission;
+use App\Services\SearchIndexer;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
@@ -185,5 +186,7 @@ final class DatabaseSeeder extends Seeder
                 $item,
             );
         }
+
+        app(SearchIndexer::class)->rebuild();
     }
 }

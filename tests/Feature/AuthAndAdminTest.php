@@ -34,6 +34,7 @@ final class AuthAndAdminTest extends TestCase
         ])->assertRedirect();
 
         $this->assertDatabaseHas('contents', ['slug' => 'page-test', 'type' => 'page']);
+        $this->assertDatabaseHas('search_documents', ['title' => 'Page test']);
         $this->assertDatabaseHas('activity_log', ['description' => 'content.created']);
     }
 
@@ -49,4 +50,3 @@ final class AuthAndAdminTest extends TestCase
         $this->actingAs($user)->get('/admin')->assertForbidden();
     }
 }
-

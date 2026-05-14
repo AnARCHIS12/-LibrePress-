@@ -12,6 +12,7 @@ use App\Models\Content;
 use App\Jobs\DeliverActivityPubOutboxItem;
 use App\Services\ActivityPubOutbox;
 use App\Services\WordPress\WxrImporter;
+use App\Services\SearchIndexer;
 
 Artisan::command('inspire', function (): void {
     $this->comment(Inspiring::quote());
@@ -74,3 +75,10 @@ Artisan::command('librepress:activitypub-publish {contentId} {actor=admin}', fun
 
     return self::SUCCESS;
 })->purpose('Create and queue an ActivityPub Create activity for a content item');
+
+Artisan::command('librepress:search-reindex', function (SearchIndexer $indexer): int {
+    $count = $indexer->rebuild();
+    $this->info("Indexed {$count} content item(s).");
+
+    return self::SUCCESS;
+})->purpose('Rebuild the internal search index');

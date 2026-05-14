@@ -39,6 +39,20 @@ final class MediaSecurityTest extends TestCase
         $this->assertDatabaseHas('media', ['alt' => 'Photo descriptive', 'mime_type' => 'image/png']);
     }
 
+    public function test_non_image_remote_media_meta_can_be_stored(): void
+    {
+        \App\Models\Media::query()->create([
+            'disk' => 'remote',
+            'path' => 'https://example.test/file.pdf',
+            'mime_type' => 'application/pdf',
+            'size' => 0,
+            'hash' => hash('sha256', 'https://example.test/file.pdf'),
+            'meta' => ['source' => 'test'],
+        ]);
+
+        $this->assertDatabaseHas('media', ['path' => 'https://example.test/file.pdf']);
+    }
+
     private function tinyPng(): UploadedFile
     {
         return UploadedFile::fake()->createWithContent(
