@@ -33,10 +33,10 @@ final class ExtensionDiscovery
             ->map(fn (string $file): array => [
                 ...json_decode(File::get($file), true, flags: JSON_THROW_ON_ERROR),
                 'path' => dirname($file),
+                'manifest_file' => $file,
             ])
             ->sortBy('name')
             ->values()
             ->all();
     }
 }
-

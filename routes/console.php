@@ -55,8 +55,8 @@ Artisan::command('librepress:import-wordpress {file}', function (WxrImporter $im
         return self::FAILURE;
     }
 
-    $count = $importer->import($file, $admin);
-    $this->info("Imported $count WordPress items.");
+    $summary = $importer->import($file, $admin);
+    $this->info('Imported WordPress WXR: '.json_encode($summary, JSON_UNESCAPED_SLASHES));
 
     return self::SUCCESS;
 })->purpose('Import pages and posts from a WordPress WXR export');

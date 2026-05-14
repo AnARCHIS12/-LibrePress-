@@ -6,9 +6,13 @@
             <a href="<?php echo e(route('admin.pages.index')); ?>">Contenus</a>
             <a href="<?php echo e(route('admin.media.index')); ?>">Medias</a>
             <a href="<?php echo e(route('admin.comments.index')); ?>">Commentaires</a>
+            <a href="<?php echo e(route('admin.taxonomies.index')); ?>">Taxonomies</a>
+            <a href="<?php echo e(route('admin.menus.index')); ?>">Menus</a>
+            <a href="<?php echo e(route('admin.users.index')); ?>">Utilisateurs</a>
             <a href="<?php echo e(route('admin.modules.index')); ?>">Modules</a>
             <a href="<?php echo e(route('admin.themes.index')); ?>">Themes</a>
             <a href="<?php echo e(route('admin.settings.edit')); ?>">Reglages</a>
+            <a href="<?php echo e(route('admin.backups.index')); ?>">Sauvegardes</a>
             <a href="<?php echo e(route('front.home')); ?>">Voir le site</a>
         </aside>
         <main class="admin-main">

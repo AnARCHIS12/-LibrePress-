@@ -59,9 +59,9 @@
         <div class="shell nav">
             <a href="<?php echo e(route('front.home')); ?>" class="brand"><?php echo e(config('app.name')); ?></a>
             <nav class="navlinks">
-                <a href="<?php echo e(route('front.blog')); ?>">Blog</a>
-                <a href="<?php echo e(route('front.search')); ?>">Recherche</a>
-                <a href="<?php echo e(route('front.rss')); ?>">RSS</a>
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = app(\App\Services\Navigation::class)->items('primary'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <a href="<?php echo e($item->url); ?>" <?php if($item->new_tab): ?> target="_blank" rel="noopener noreferrer" <?php endif; ?>><?php echo e($item->label); ?></a>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->guard()->check()): ?>
                     <a href="<?php echo e(route('admin.dashboard')); ?>">Admin</a>
                     <form method="post" action="<?php echo e(route('logout')); ?>">

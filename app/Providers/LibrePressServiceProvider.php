@@ -6,9 +6,11 @@ namespace App\Providers;
 
 use App\Core\Contracts\HookRegistryInterface;
 use App\Core\Hooks\InMemoryHookRegistry;
+use App\Rules\RequiredIfFileImage;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 
 final class LibrePressServiceProvider extends ServiceProvider
@@ -33,5 +35,15 @@ final class LibrePressServiceProvider extends ServiceProvider
         RateLimiter::for('comments', fn (Request $request) => [
             Limit::perMinute(3)->by((string) $request->ip()),
         ]);
+
+        Validator::extendImplicit('required_if_file_image', function (string $attribute, mixed $value, array $parameters): bool {
+            $rule = new RequiredIfFileImage($parameters[0] ?? 'file');
+            $failed = false;
+            $rule->validate($attribute, $value, function () use (&$failed): void {
+                $failed = true;
+            });
+
+            return ! $failed;
+        });
     }
 }

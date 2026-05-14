@@ -15,6 +15,24 @@ Ce depot pose une fondation d'architecture et des contrats de code. Il n'est pas
 
 Etat actuel: MVP Laravel fonctionnel avec front public, admin, contenus, medias, commentaires, recherche, RSS, PWA, API REST, modules/themes locaux, export, backup et import WordPress WXR minimal.
 
+Stabilisation ajoutee:
+
+- roles et permissions via Spatie Permission;
+- policies Laravel pour contenus, medias, commentaires, reglages, modules, themes, taxonomies et utilisateurs;
+- audit log admin via Spatie Activitylog;
+- validation d'upload stricte avec MIME, taille, dimensions image, alt obligatoire et antivirus optionnel;
+- modeles dedies `Page`, `Post`, `Media`, `Comment`, `Setting`, `Module`, `Theme`, `Taxonomy`, `Term`;
+- tests PHPUnit pour routes publiques, auth, contenus, commentaires, API, medias, roles, taxonomies, workflows editoriaux, ActivityPub, sauvegardes, multilingue et extensions.
+- workflows editoriaux: revisions, restauration, preview, publication planifiee;
+- menus/navigation administrables;
+- sitemap XML, robots.txt et Atom;
+- blocs natifs serveur: markdown, titre, paragraphe, citation, code, bouton, image, embed, colonnes.
+- ActivityPub persistant: actor, WebFinger, inbox, outbox, followers et blocages;
+- sauvegarde/export declenchables depuis l'administration.
+- commentaires durcis: honeypot, detection spam simple, signalements;
+- multilingue utilisable par duplication de contenu et groupe de traduction;
+- extensions durcies: checksum manifeste, contrainte de version coeur, preview theme, desinstallation module.
+
 ## Stack cible
 
 - PHP 8.3+ avec typage strict;
@@ -110,6 +128,24 @@ Commandes utiles:
 php artisan librepress:export
 php artisan librepress:backup
 php artisan librepress:import-wordpress /chemin/export.wordpress.xml
+composer test
+php artisan librepress:publish-scheduled
+```
+
+Scripts production:
+
+```bash
+sh scripts/install.sh
+sh scripts/update.sh
+sh scripts/backup.sh
+```
+
+Docker:
+
+```bash
+docker compose --profile mariadb up -d --build
+docker compose --profile postgres up -d --build
+docker compose --profile sqlite up -d --build
 ```
 
 ## Modules

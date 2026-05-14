@@ -12,6 +12,11 @@
                 <div class="card" style="margin-bottom: 12px">
                     <strong><?php echo e($comment->author_name); ?></strong>
                     <p><?php echo e($comment->body); ?></p>
+                    <form method="post" action="<?php echo e(route('comments.report', $comment)); ?>">
+                        <?php echo csrf_field(); ?>
+                        <input type="hidden" name="reason" value="other">
+                        <button type="submit">Signaler</button>
+                    </form>
                 </div>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                 <p class="muted">Aucun commentaire pour le moment.</p>
@@ -32,6 +37,10 @@
                 <label>
                     Commentaire
                     <textarea name="body" required style="min-height: 120px"></textarea>
+                </label>
+                <label style="position:absolute; left:-9999px" aria-hidden="true">
+                    Site web
+                    <input name="website" tabindex="-1" autocomplete="off">
                 </label>
                 <button class="primary" type="submit">Publier</button>
             </form>

@@ -12,9 +12,10 @@ final class AdminMiddleware
 {
     public function handle(Request $request, Closure $next): Response
     {
-        abort_unless($request->user()?->is_admin, 403);
+        $user = $request->user();
+
+        abort_unless($user && ($user->is_admin || $user->can('admin.access')), 403);
 
         return $next($request);
     }
 }
-

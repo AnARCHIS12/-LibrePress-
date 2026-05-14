@@ -11,7 +11,15 @@ final class ContentRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return (bool) $this->user()?->is_admin;
+        $user = $this->user();
+
+        if (! $user) {
+            return false;
+        }
+
+        return $this->isMethod('post')
+            ? $user->can('content.create')
+            : $user->can('content.update');
     }
 
     /**
@@ -26,11 +34,15 @@ final class ContentRequest extends FormRequest
             'slug' => ['nullable', 'string', 'max:255'],
             'excerpt' => ['nullable', 'string'],
             'locale' => ['required', 'string', 'max:12'],
+            'scheduled_at' => ['nullable', 'date'],
             'body_markdown' => ['nullable', 'string'],
+            'body_blocks_json' => ['nullable', 'json'],
             'meta_title' => ['nullable', 'string', 'max:255'],
             'meta_description' => ['nullable', 'string', 'max:255'],
             'canonical_url' => ['nullable', 'url', 'max:255'],
             'noindex' => ['nullable', 'boolean'],
+            'terms' => ['array'],
+            'terms.*' => ['integer', 'exists:terms,id'],
         ];
     }
 
@@ -41,6 +53,7 @@ final class ContentRequest extends FormRequest
     {
         $validated = $this->validated();
         $markdown = $validated['body_markdown'] ?? '';
+        $document = app(\App\Services\BlockDocument::class)->fromJson($validated['body_blocks_json'] ?? null, $markdown);
 
         return [
             'type' => $validated['type'],
@@ -50,16 +63,8 @@ final class ContentRequest extends FormRequest
             'title' => $validated['title'],
             'excerpt' => $validated['excerpt'] ?? null,
             'locale' => $validated['locale'],
-            'body_json' => [
-                'version' => 1,
-                'blocks' => [
-                    [
-                        'id' => (string) Str::uuid(),
-                        'type' => 'core/markdown',
-                        'props' => ['text' => $markdown],
-                    ],
-                ],
-            ],
+            'body_json' => $document,
+            'scheduled_at' => $validated['status'] === 'scheduled' ? $validated['scheduled_at'] ?? now()->addHour() : null,
             'published_at' => $validated['status'] === 'published' ? now() : null,
             'meta' => [
                 'editor' => 'markdown-block-v1',

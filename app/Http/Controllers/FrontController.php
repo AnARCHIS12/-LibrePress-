@@ -78,6 +78,40 @@ final readonly class FrontController
             ->header('Content-Type', 'application/rss+xml; charset=UTF-8');
     }
 
+    public function atom(): Response
+    {
+        $posts = Content::query()
+            ->where('type', 'post')
+            ->where('status', 'published')
+            ->latest('published_at')
+            ->limit(20)
+            ->get();
+
+        return response()
+            ->view('front.atom', ['posts' => $posts])
+            ->header('Content-Type', 'application/atom+xml; charset=UTF-8');
+    }
+
+    public function sitemap(): Response
+    {
+        $contents = Content::query()
+            ->where('status', 'published')
+            ->latest('updated_at')
+            ->limit(1000)
+            ->get();
+
+        return response()
+            ->view('front.sitemap', ['contents' => $contents])
+            ->header('Content-Type', 'application/xml; charset=UTF-8');
+    }
+
+    public function robots(): Response
+    {
+        return response()
+            ->view('front.robots')
+            ->header('Content-Type', 'text/plain; charset=UTF-8');
+    }
+
     public function activityActor(string $username): Response
     {
         $payload = [

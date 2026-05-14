@@ -13,6 +13,11 @@
                 <div class="card" style="margin-bottom: 12px">
                     <strong>{{ $comment->author_name }}</strong>
                     <p>{{ $comment->body }}</p>
+                    <form method="post" action="{{ route('comments.report', $comment) }}">
+                        @csrf
+                        <input type="hidden" name="reason" value="other">
+                        <button type="submit">Signaler</button>
+                    </form>
                 </div>
             @empty
                 <p class="muted">Aucun commentaire pour le moment.</p>
@@ -33,6 +38,10 @@
                 <label>
                     Commentaire
                     <textarea name="body" required style="min-height: 120px"></textarea>
+                </label>
+                <label style="position:absolute; left:-9999px" aria-hidden="true">
+                    Site web
+                    <input name="website" tabindex="-1" autocomplete="off">
                 </label>
                 <button class="primary" type="submit">Publier</button>
             </form>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\ResolveRedirects;
 use App\Providers\LibrePressServiceProvider;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -13,7 +14,14 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
+    ->withCommands([
+        App\Console\Commands\PublishScheduledContent::class,
+    ])
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->web(append: [
+            ResolveRedirects::class,
+        ]);
+
         $middleware->alias([
             'admin' => AdminMiddleware::class,
         ]);
@@ -25,4 +33,3 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->create();
-

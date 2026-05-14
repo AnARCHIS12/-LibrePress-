@@ -59,9 +59,9 @@
         <div class="shell nav">
             <a href="{{ route('front.home') }}" class="brand">{{ config('app.name') }}</a>
             <nav class="navlinks">
-                <a href="{{ route('front.blog') }}">Blog</a>
-                <a href="{{ route('front.search') }}">Recherche</a>
-                <a href="{{ route('front.rss') }}">RSS</a>
+                @foreach (app(\App\Services\Navigation::class)->items('primary') as $item)
+                    <a href="{{ $item->url }}" @if ($item->new_tab) target="_blank" rel="noopener noreferrer" @endif>{{ $item->label }}</a>
+                @endforeach
                 @auth
                     <a href="{{ route('admin.dashboard') }}">Admin</a>
                     <form method="post" action="{{ route('logout') }}">

@@ -2,6 +2,7 @@
   "name": "Nova",
   "slug": "nova",
   "version": "0.1.0",
+  "core": "^0.1",
   "description": "Default lightweight responsive theme.",
   "regions": {
     "header": "Header",
@@ -20,4 +21,3 @@
     "responsive-images"
   ]
 }
-

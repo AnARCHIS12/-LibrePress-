@@ -49,6 +49,23 @@ services:
     image: redis:7-alpine
     command: ["redis-server", "--save", "", "--appendonly", "no", "--maxmemory", "128mb", "--maxmemory-policy", "allkeys-lru"]
 
+  postgres:
+    image: postgres:17-alpine
+    profiles: ["postgres"]
+    environment:
+      POSTGRES_DB: librepress
+      POSTGRES_USER: librepress
+      POSTGRES_PASSWORD: change-me
+    volumes:
+      - pg:/var/lib/postgresql/data
+
+  sqlite:
+    image: busybox:1.37
+    profiles: ["sqlite"]
+    command: ["sh", "-c", "mkdir -p /data && touch /data/database.sqlite && sleep infinity"]
+    volumes:
+      - sqlite:/data
+
   queue:
     build:
       context: .
@@ -79,3 +96,5 @@ services:
 volumes:
   db:
   storage:
+  pg:
+  sqlite:

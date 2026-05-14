@@ -16,13 +16,22 @@ final class Comment extends Model
         'author_email_hash',
         'body',
         'status',
+        'reports_count',
+        'is_spam',
+        'moderation_reason',
         'ip_hash',
         'user_agent_hash',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'is_spam' => 'boolean',
+        ];
+    }
 
     public function content(): BelongsTo
     {
         return $this->belongsTo(Content::class);
     }
 }
-

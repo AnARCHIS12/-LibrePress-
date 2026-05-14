@@ -25,6 +25,10 @@
                 </select>
             </label>
             <label>
+                Publication planifiee
+                <input name="scheduled_at" type="datetime-local" value="{{ old('scheduled_at', optional($content->scheduled_at)->format('Y-m-d\TH:i')) }}">
+            </label>
+            <label>
                 Langue
                 <input name="locale" value="{{ old('locale', $content->locale ?? 'fr') }}" required>
             </label>
@@ -42,6 +46,18 @@
             Extrait
             <input name="excerpt" value="{{ old('excerpt', $content->excerpt) }}">
         </label>
+
+        @if ($terms->isNotEmpty())
+            <div class="card" style="margin-bottom: 14px">
+                <h2>Taxonomies</h2>
+                @foreach ($terms as $term)
+                    <label style="display: flex; grid-template-columns: auto 1fr; align-items: center">
+                        <input name="terms[]" type="checkbox" value="{{ $term->id }}" @checked(in_array($term->id, old('terms', $selectedTerms), true)) style="width: auto">
+                        {{ $term->taxonomy->name }}: {{ $term->name }}
+                    </label>
+                @endforeach
+            </div>
+        @endif
 
         <div class="card" style="margin-bottom: 14px">
             <h2>SEO</h2>
@@ -67,10 +83,18 @@
             Editeur bloc Markdown
             <textarea name="body_markdown">{{ old('body_markdown', data_get($content->body_json, 'blocks.0.props.text')) }}</textarea>
         </label>
+        <label>
+            Document blocs JSON avance
+            <textarea name="body_blocks_json" style="min-height: 180px">{{ old('body_blocks_json', $content->exists ? json_encode($content->body_json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) : '') }}</textarea>
+        </label>
 
         <div class="form-actions">
             <button class="primary" type="submit">Enregistrer</button>
             <a class="button" href="{{ route('admin.pages.index') }}">Retour</a>
+            @if ($content->exists)
+                <a class="button" href="{{ route('admin.pages.preview', $content) }}">Previsualiser</a>
+                <a class="button" href="{{ route('admin.pages.revisions', $content) }}">Revisions</a>
+            @endif
         </div>
     </form>
 
@@ -79,6 +103,16 @@
             @csrf
             @method('delete')
             <button class="danger" type="submit">Supprimer</button>
+        </form>
+
+        <form method="post" action="{{ route('admin.pages.translations.store', $content) }}" class="card" style="margin-top: 14px">
+            @csrf
+            <h2>Traduction</h2>
+            <label>
+                Nouvelle locale
+                <input name="locale" placeholder="en" required>
+            </label>
+            <button type="submit">Creer une traduction</button>
         </form>
     @endif
 @endsection

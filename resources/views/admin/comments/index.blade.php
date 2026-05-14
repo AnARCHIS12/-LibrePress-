@@ -9,6 +9,7 @@
                 <th>Auteur</th>
                 <th>Contenu</th>
                 <th>Statut</th>
+                <th>Signalements</th>
                 <th>Commentaire</th>
                 <th></th>
             </tr>
@@ -19,6 +20,7 @@
                     <td>{{ $comment->author_name }}</td>
                     <td>{{ $comment->content?->title }}</td>
                     <td>{{ $comment->status }}</td>
+                    <td>{{ $comment->reports_count }} @if($comment->is_spam)<span class="muted">spam: {{ $comment->moderation_reason }}</span>@endif</td>
                     <td>{{ $comment->body }}</td>
                     <td>
                         <div class="form-actions">
@@ -46,4 +48,3 @@
 
     <div style="margin-top: 24px">{{ $comments->links() }}</div>
 @endsection
-
